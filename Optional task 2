@@ -4,7 +4,7 @@ import time
 
 items = ["Pasta", "Meal of the Day", "Panini", "Muffin"]
 prices = [45, 60, 40, 20]
-inventories = [60, 100, 80, 40]
+inventories = [80, 100, 80, 60]
 
 # we simulate a random number of customers between 100 and 1000
 # Then we run our simulation to figure out how many of each items we should carry
@@ -37,7 +37,7 @@ def opt_inv():
     for the randomized amount of customers it returns the most optimal inventory
     amount and its corresponding total profit
     """
-    opt_prof = float("-999999")
+    opt_prof = float("-inf")
     opt_stock = []
 
     for pasta in range(10, 110, 10):
