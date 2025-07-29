@@ -1,3 +1,5 @@
+# Made by: Marius Hansen
+
 import random
 
 items = ["Pasta", "Meal of the Day", "Panini", "Muffin"]
