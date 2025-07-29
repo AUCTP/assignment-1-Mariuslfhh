@@ -1,7 +1,7 @@
 import random
 
 items = ["Pasta", "Meal of the Day", "Panini", "Muffin"]
-prices = [45, 60, 40, 20]
+prices = [45, 60, 40, 20] # in DKK
 inventories = [60, 100, 80, 40]
 inv_backup = inventories.copy()
 
