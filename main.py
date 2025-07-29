@@ -74,8 +74,16 @@ while True:
     if choice == 1:
         number = int(input("How many customers would you like to simulate?: "))
         salesN = simulate_customers(number)
+        buyers = len(salesN)
         sale_record.extend(salesN)
+        count = [0] * len(items)
+        for i in salesN:
+            count[i] += 1
         print(f"You simulated {number} customers")
+        print(f"{buyers} customers made a purchase")
+        print("They bought this amount of items:")
+        for i in range(len(items)):
+            print(f"{items[i]}: {count[i]}")
     
     elif choice == 2:
         inventories = inv_backup.copy()
@@ -85,7 +93,8 @@ while True:
     elif choice == 3:
         leftover_inv = inventories
         print("Leftover inventory: ")
-        print(f"{leftover_inv}")
+        for i in range(len(inventories)):
+            print(f"{items[i]}: {leftover_inv[i]}")
 
     elif choice == 4:
         if sale_record == 0:
