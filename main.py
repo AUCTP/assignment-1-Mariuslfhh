@@ -3,16 +3,16 @@ import random
 items = ["Pasta", "Meal of the Day", "Panini", "Muffin"]
 prices = [45, 60, 40, 20]
 inventories = [60, 100, 80, 40]
+inv_backup = inventories.copy()
 
-# simulating customer arrival with 50% purchase chance:
 def simulate_customers(customers):
     """
-    Simulates customers with a 50% chance of buying an item, 
-    if they buy, gets random item name and adds to sales list
+    Simulates the stated amount of customers and give a 50% chance of purchase
+    If customer makes a purchase, picks a random item from items to sell
     """
     sales = []
     for i in range (customers):
-        if random.random < 0.5:
+        if random.random() < 0.5:
             item_name = random.randint(0, (len(items)) - 1)
             if inventories[item_name] > 0:
                 inventories[item_name] -= 1
@@ -46,7 +46,7 @@ def profit(sales):
     revenue = sales_list(sales)
     cost_eod_inv = sum((inventories[i] * (prices[i] / 2)) for i in range (len(items)))
     prof_calc = revenue - cost_eod_inv
-    return prof_calc and cost_eod_inv
+    return prof_calc, cost_eod_inv
 
 def profit_report_generator(sales):
     """
@@ -58,5 +58,55 @@ def profit_report_generator(sales):
     print(f"cost of unsold inventory: {eod_costs:.2f} DKK")
     print(f"Profit for the day: {prof_calc:.2f} DKK")
 
+sale_record = []
+
+while True:
+    print("\nChoose what you would like to do:")
+    print("1: Choose amount of customers to simulate")
+    print("2: Reset sales & inventory")
+    print("3: Show leftover inventory")
+    print("4: Show daily revenue report")
+    print("5: Show daily report with profit")
+    print("6: Terminate program")
+
+    choice = int(input(""))
+
+    if choice == 1:
+        number = int(input("How many customers would you like to simulate?: "))
+        salesN = simulate_customers(number)
+        sale_record.extend(salesN)
+        print(f"You simulated {number} customers")
+    
+    elif choice == 2:
+        inventories = inv_backup.copy()
+        sale_record.clear()
+        print("You have reset inventory and sale list")
+
+    elif choice == 3:
+        leftover_inv = inventories
+        print("Leftover inventory: ")
+        print(f"{leftover_inv}")
+
+    elif choice == 4:
+        if sale_record == 0:
+            print("The sales list is empty")
+        else:
+            daily_report(sale_record)
+    
+    elif choice == 5:
+        if sale_record == 0:
+            print("There has been no sales yet")
+        else:
+            profit_report_generator(sale_record)
+
+    elif choice == 6:
+        print("Terminating program, see ya! 😎")
+        break
+
+    else:
+        print("Please enter a valid number between 1 - 6")
+
+
+    
 
 

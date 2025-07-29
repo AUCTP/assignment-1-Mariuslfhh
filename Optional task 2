@@ -1,0 +1,69 @@
+import random
+
+import time
+
+items = ["Pasta", "Meal of the Day", "Panini", "Muffin"]
+prices = [45, 60, 40, 20]
+inventories = [60, 100, 80, 40]
+
+# we simulate a random number of customers between 100 and 1000
+# Then we run our simulation to figure out how many of each items we should carry
+# under the assumption 50% of our customers make a purchase of a randomized item
+customer_num = random.randint(100, 1000)
+
+start = time.time()
+
+def simulate_customers(inventory, customers):
+    sales = []
+    inv = inventories.copy()
+    for i in range (customers):
+        if random.random() < 0.5:
+            item_name = random.randint(0, (len(items)) - 1)
+            if inv[item_name] > 0:
+                inv[item_name] -= 1
+                sales.append(item_name)
+    return sales, inv
+
+def profit_calc(sales, inv_leftover):
+    revenue = sum(prices[i] for i in sales)
+    inv_leftover_cost = sum(inv_leftover[i] * (prices[i] / 2) for i in range(len(items))) 
+    return revenue - inv_leftover_cost
+
+def opt_inv():
+    """
+    Tests combinations of each item in increments of 10 in the range 10 - 110
+    then tests sales and profits for each combination and keeps track of the 
+    inventory amounts that give the highest profit. After running all ranges
+    for the randomized amount of customers it returns the most optimal inventory
+    amount and its corresponding total profit
+    """
+    opt_prof = float("-inf")
+    opt_stock = []
+
+    for pasta in range(10, 110, 10):
+        for meal in range(10, 110, 10):
+            for panini in range(10, 110, 10):
+                for muffin in range(10, 110, 10):
+                    inventory = [pasta, meal, panini, muffin]
+                    sales, inv_left = simulate_customers(inventory, customer_num)
+                    profit = profit_calc(sales, inv_left)
+
+                    if profit > opt_prof:
+                        opt_prof = profit
+                        opt_stock = inventory
+    return opt_prof, opt_stock
+
+fin_prof, fin_inv = opt_inv()
+
+print(f"Optimal inventory for {customer_num} customers: ")
+for i in range(len(items)):
+    print(f"{items[i]}: {fin_inv[i]}")
+print(f"Profit from optimal inventory for {customer_num} customers:")
+print(f"Optimal profits: {fin_prof:.2f} DKK")
+
+end = time.time()
+
+print(f"Time spent on calculation: {(end - start):.2f}")
+
+
+
