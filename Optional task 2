@@ -37,7 +37,7 @@ def opt_inv():
     for the randomized amount of customers it returns the most optimal inventory
     amount and its corresponding total profit
     """
-    opt_prof = float("-inf")
+    opt_prof = float("-999999")
     opt_stock = []
 
     for pasta in range(10, 110, 10):
